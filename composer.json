@@ -6,7 +6,8 @@
     "autoload": {
         "psr-4": {
             "Pandora\\": "src/Pandora",
-            "Pandora\\Exception\\": "src/Pandora/Exceptions"
+            "Pandora\\Exception\\": "src/Pandora/Exceptions",
+            "Pandora\\Constants\\": "src/Pandora/Constants"
         }
     },
     "authors": [

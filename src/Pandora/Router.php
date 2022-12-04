@@ -2,6 +2,9 @@
 
 namespace Pandora;
 
+use Pandora\Constants\HttpMethod;
+use Pandora\Constants\ErrorResponse;
+
 use Pandora\Exception\NotFoundException;
 
 class Router {
@@ -16,7 +19,7 @@ class Router {
     public function resolve() {
         $action = $this->routes[$_SERVER["REQUEST_METHOD"]][$_SERVER["REQUEST_URI"]] ?? null;
         if (is_null($action)) {
-            throw new NotFoundException("El recurso solicitado no existe!", 404);
+            throw new NotFoundException("El recurso solicitado no existe!", ErrorResponse::NOT_FOUND->value);
         }
         return $action;
     }

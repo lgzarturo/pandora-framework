@@ -1,6 +1,6 @@
 <?php
 
-namespace Pandora;
+namespace Pandora\Constants;
 
 enum HttpMethod:string {
     case GET = "GET";
