@@ -12,6 +12,18 @@ $router->post('/test', function () {
     return "POST /test OK";
 });
 
+$router->put('/test', function () {
+    return "PUT /test OK";
+});
+
+$router->patch('/test', function () {
+    return "PATCH /test OK";
+});
+
+$router->delete('/test', function () {
+    return "DELETE /test OK";
+});
+
 try {
     $action = $router->resolve();
     print($action());
