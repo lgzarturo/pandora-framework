@@ -1,6 +1,7 @@
 <?php
 
-require "./http-methods.php"
+require "./http-methods.php";
+require "./not-found-exception.php";
 
 class Router {
     protected array $routes = [];
@@ -9,6 +10,16 @@ class Router {
         foreach (HttpMethod::cases() as $method) {
             $this->routes[$method->value] = [];
         }
+    }
+
+    public function resolve() {
+        $method = $_SERVER["REQUEST_METHOD"];
+        $uri = $_SERVER["REQUEST_URI"];
+        $action = $this->routes[$method][$uri] ?? null;
+        if (is_null($action)) {
+            throw new NotFoundException();
+        }
+        return $action;
     }
 
     public function get(string $uri, callable $action) {

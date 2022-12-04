@@ -12,5 +12,10 @@ $router->post('/test', function () {
     return "POST /test OK";
 });
 
-
-var_dump($router);
+try {
+    $action = $router->resolve();
+    print($action());
+} catch (NotFoundException $e) {
+    print("Not found");
+    http_response_code(404);
+}
