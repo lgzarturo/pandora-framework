@@ -2,6 +2,8 @@
 
 namespace Pandora;
 
+use Pandora\Exception\NotFoundException;
+
 class Router {
     protected array $routes = [];
 
@@ -12,32 +14,34 @@ class Router {
     }
 
     public function resolve() {
-        $method = $_SERVER["REQUEST_METHOD"];
-        $uri = $_SERVER["REQUEST_URI"];
-        $action = $this->routes[$method][$uri] ?? null;
+        $action = $this->routes[$_SERVER["REQUEST_METHOD"]][$_SERVER["REQUEST_URI"]] ?? null;
         if (is_null($action)) {
-            throw new NotFoundException();
+            throw new NotFoundException("El recurso solicitado no existe!", 404);
         }
         return $action;
     }
 
     public function get(string $uri, callable $action) {
-        $this->routes[HttpMethod::GET->value][$uri] = $action;
+        $this->resolveAction(HttpMethod::GET, $uri, $action);
     }
 
     public function post(string $uri, callable $action) {
-        $this->routes[HttpMethod::POST->value][$uri] = $action;
+        $this->resolveAction(HttpMethod::POST, $uri, $action);
     }
 
     public function put(string $uri, callable $action) {
-        $this->routes[HttpMethod::PUT->value][$uri] = $action;
+        $this->resolveAction(HttpMethod::PUT, $uri, $action);
     }
 
     public function patch(string $uri, callable $action) {
-        $this->routes[HttpMethod::PATCH->value][$uri] = $action;
+        $this->resolveAction(HttpMethod::PATCH, $uri, $action);
     }
 
     public function delete(string $uri, callable $action) {
-        $this->routes[HttpMethod::DELETE->value][$uri] = $action;
+        $this->resolveAction(HttpMethod::DELETE, $uri, $action);
+    }
+
+    private function resolveAction(HttpMethod $method, string $uri, callable $action) {
+        $this->routes[$method->value][$uri] = $action;
     }
 }

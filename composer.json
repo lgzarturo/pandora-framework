@@ -5,7 +5,8 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Pandora\\": "src/Pandora"
+            "Pandora\\": "src/Pandora",
+            "Pandora\\Exception\\": "src/Pandora/Exceptions"
         }
     },
     "authors": [

@@ -2,7 +2,7 @@
 
 require_once '../vendor/autoload.php';
 
-use Pandora\NotFoundException;
+use Pandora\Exception\NotFoundException;
 use Pandora\Router;
 
 $router = new Router();
@@ -31,6 +31,6 @@ try {
     $action = $router->resolve();
     print($action());
 } catch (NotFoundException $e) {
-    print("Not found");
+    print($e);
     http_response_code(404);
 }
