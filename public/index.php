@@ -1,6 +1,9 @@
 <?php
 
-require "./router.php";
+require_once '../vendor/autoload.php';
+
+use Pandora\NotFoundException;
+use Pandora\Router;
 
 $router = new Router();
 

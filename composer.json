@@ -1,0 +1,18 @@
+{
+    "name": "lgzarturo/pandora-framework",
+    "description": "Framework PHP 8.1 RestAPI",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Pandora\\": "src/Pandora"
+        }
+    },
+    "authors": [
+        {
+            "name": "Arturo López",
+            "email": "lgzarturo@gmail.com"
+        }
+    ],
+    "require": {}
+}

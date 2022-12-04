@@ -1,7 +1,6 @@
 <?php
 
-require "./http-methods.php";
-require "./not-found-exception.php";
+namespace Pandora;
 
 class Router {
     protected array $routes = [];
