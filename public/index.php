@@ -30,7 +30,10 @@ $router->delete('/test', static function () {
 
 try {
     if ($_SERVER !== null) {
-        $action = $router->resolve(method: $_SERVER["REQUEST_METHOD"], uri: $_SERVER["REQUEST_URI"]);
+        $action = $router->resolve(
+            method: $_SERVER["REQUEST_METHOD"],
+            uri: $_SERVER["REQUEST_URI"]
+        );
     }
     if (isset($action)) {
         print($action());

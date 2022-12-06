@@ -3,6 +3,9 @@
     "description": "Framework PHP 8.1 RestAPI",
     "type": "library",
     "license": "MIT",
+    "scripts": {
+        "tests": "phpunit --color=always --testdox -v tests/"
+    },
     "autoload": {
         "psr-4": {
             "Pandora\\": "src/Pandora",

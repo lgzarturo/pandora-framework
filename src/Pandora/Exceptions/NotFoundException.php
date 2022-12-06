@@ -6,7 +6,11 @@ use Exception;
 use Throwable;
 
 class NotFoundException extends Exception {
-    public function __construct(string $message, $code = 0, Throwable|null $previous = null) {
+    public function __construct(
+        string $message,
+        int $code = 0,
+        Throwable|null $previous = null
+    ) {
         parent::__construct($message, $code, $previous);
     }
 
