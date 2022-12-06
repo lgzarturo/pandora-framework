@@ -10,11 +10,18 @@
             "Pandora\\Constants\\": "src/Pandora/Constants"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Pandora\\Tests\\": "tests"
+        }
+    },
     "authors": [
         {
             "name": "Arturo López",
             "email": "lgzarturo@gmail.com"
         }
     ],
-    "require": {}
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    }
 }
