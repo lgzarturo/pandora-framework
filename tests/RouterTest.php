@@ -12,7 +12,7 @@ class RouterTest extends TestCase {
     /**
      * @throws NotFoundException
      */
-    public function test_resolve_basic_route_with_callback_action(): void {
+    final public function test_resolve_basic_route_with_callback_action(): void {
         $uri = '/test';
         $action = static fn() => "test";
         $router = new Router();

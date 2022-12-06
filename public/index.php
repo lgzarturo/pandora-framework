@@ -29,7 +29,6 @@ $router->delete('/test', static function () {
 });
 
 try {
-    /** @var TYPE_NAME $_SERVER */
     if ($_SERVER !== null) {
         $action = $router->resolve(method: $_SERVER["REQUEST_METHOD"], uri: $_SERVER["REQUEST_URI"]);
     }
