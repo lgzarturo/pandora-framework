@@ -5,7 +5,6 @@ require_once '../vendor/autoload.php';
 use Pandora\Constants\ErrorResponse;
 use Pandora\Exception\NotFoundException;
 use Pandora\Router;
-use Pandora\Routes\Route;
 
 $router = new Router();
 
