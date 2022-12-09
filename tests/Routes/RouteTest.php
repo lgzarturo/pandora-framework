@@ -1,6 +1,6 @@
 <?php
 
-namespace Pandora\Tests;
+namespace Pandora\Tests\Routes;
 
 use Pandora\Routes\Route;
 use PHPUnit\Framework\TestCase;

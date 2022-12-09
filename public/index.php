@@ -4,7 +4,7 @@ require_once '../vendor/autoload.php';
 
 use Pandora\Constants\ErrorResponse;
 use Pandora\Exception\NotFoundException;
-use Pandora\Router;
+use Pandora\Routes\Router;
 use Pandora\Server\Request;
 use Pandora\Server\ServerNative;
 

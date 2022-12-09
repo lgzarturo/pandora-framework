@@ -1,12 +1,11 @@
 <?php
 
-namespace Pandora;
+namespace Pandora\Routes;
 
 use Closure;
 use Pandora\Constants\ErrorResponse;
 use Pandora\Constants\HttpMethod;
 use Pandora\Exception\NotFoundException;
-use Pandora\Routes\Route;
 use Pandora\Server\Request;
 
 class Router
