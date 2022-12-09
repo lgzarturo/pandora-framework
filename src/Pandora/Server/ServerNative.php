@@ -25,4 +25,14 @@ class ServerNative implements Server
     {
         return $_GET;
     }
+
+    final public function sendResponse(Response $response): void
+    {
+        $response->prepare();
+        http_response_code($response->getStatus());
+        foreach ($response->getHeaders() as $header => $value) {
+            header("{$header}: {$value}");
+        }
+        print($response->getContent());
+    }
 }

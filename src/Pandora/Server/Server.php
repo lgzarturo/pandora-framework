@@ -13,4 +13,6 @@ interface Server
     public function getBody(): array;
 
     public function getQueryString(): array;
+
+    public function sendResponse(Response $response): void;
 }

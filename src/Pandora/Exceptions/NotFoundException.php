@@ -3,6 +3,7 @@
 namespace Pandora\Exception;
 
 use Exception;
+use JsonException;
 use Throwable;
 
 class NotFoundException extends Exception
@@ -16,8 +17,16 @@ class NotFoundException extends Exception
         parent::__construct($message, $code, $previous);
     }
 
+    /**
+     * @throws JsonException
+     */
     public function __toString(): string
     {
-        return "{\"code\": $this->code, \"message\": \"$this->message\"}\n";
+        return json_encode($this->getModelResponse(), JSON_THROW_ON_ERROR);
+    }
+
+    final public function getModelResponse(): array
+    {
+        return ["code" => $this->code, "message" => $this->message];
     }
 }

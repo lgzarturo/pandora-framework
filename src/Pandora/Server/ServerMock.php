@@ -30,4 +30,9 @@ class ServerMock implements Server
     {
         return [];
     }
+
+    final public function sendResponse(Response $response): void
+    {
+        // TODO: Implement sendResponse() method.
+    }
 }
