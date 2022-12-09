@@ -5,6 +5,8 @@ require_once '../vendor/autoload.php';
 use Pandora\Constants\ErrorResponse;
 use Pandora\Exception\NotFoundException;
 use Pandora\Router;
+use Pandora\Server\Request;
+use Pandora\Server\ServerNative;
 
 $router = new Router();
 
@@ -30,10 +32,7 @@ $router->delete('/test', static function () {
 
 try {
     if ($_SERVER !== null) {
-        $route = $router->resolve(
-            method: $_SERVER["REQUEST_METHOD"],
-            uri: $_SERVER["REQUEST_URI"]
-        );
+        $route = $router->resolve(new Request(new ServerNative()));
     }
     if (isset($route)) {
         $action = $route->getAction();

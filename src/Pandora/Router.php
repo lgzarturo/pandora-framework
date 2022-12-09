@@ -3,11 +3,11 @@
 namespace Pandora;
 
 use Closure;
-use Pandora\Constants\HttpMethod;
 use Pandora\Constants\ErrorResponse;
-
+use Pandora\Constants\HttpMethod;
 use Pandora\Exception\NotFoundException;
 use Pandora\Routes\Route;
+use Pandora\Server\Request;
 
 class Router
 {
@@ -23,10 +23,10 @@ class Router
     /**
      * @throws NotFoundException
      */
-    final public function resolve(string $method, string $uri): Route
+    final public function resolve(Request $request): Route
     {
-        foreach ($this->routes[$method] as $route) {
-            if ($route->matches($uri)) {
+        foreach ($this->routes[$request->getMethod()->value] as $route) {
+            if ($route->matches($request->getUri())) {
                 return $route;
             }
         }

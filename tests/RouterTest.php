@@ -5,6 +5,8 @@ namespace Pandora\Tests;
 use Pandora\Constants\HttpMethod;
 use Pandora\Exception\NotFoundException;
 use Pandora\Router;
+use Pandora\Server\Request;
+use Pandora\Server\ServerMock;
 use PHPUnit\Framework\TestCase;
 
 class RouterTest extends TestCase
@@ -19,7 +21,8 @@ class RouterTest extends TestCase
         $action = static fn() => "test";
         $router = new Router();
         $router->get($uri, $action);
-        $this->assertEquals($action, $router->resolve(HttpMethod::GET->value, $uri)->getAction());
+        $request = new Request(new ServerMock($uri, HttpMethod::GET));
+        $this->assertEquals($action, $router->resolve($request)->getAction());
     }
 
     /**
@@ -39,7 +42,8 @@ class RouterTest extends TestCase
             $router->get($uri, $action);
         }
         foreach ($routes as $uri => $action) {
-            $this->assertEquals($action, $router->resolve(HttpMethod::GET->value, $uri)->getAction());
+            $request = new Request(new ServerMock($uri, HttpMethod::GET));
+            $this->assertEquals($action, $router->resolve($request)->getAction());
         }
     }
 
@@ -65,7 +69,8 @@ class RouterTest extends TestCase
             $router->{strtolower($method->value)}($uri, $action);
         }
         foreach ($routes as [$method, $uri, $action]) {
-            $this->assertEquals($action, $router->resolve($method->value, $uri)->getAction());
+            $request = new Request(new ServerMock($uri, $method));
+            $this->assertEquals($action, $router->resolve($request)->getAction());
         }
     }
 }
