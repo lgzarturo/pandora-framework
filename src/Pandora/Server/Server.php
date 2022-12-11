@@ -4,8 +4,7 @@ namespace Pandora\Server;
 
 use Pandora\Constants\HttpMethod;
 
-interface Server
-{
+interface Server {
     public function getUri(): string;
 
     public function getMethod(): HttpMethod;

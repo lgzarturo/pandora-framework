@@ -5,8 +5,7 @@ namespace Pandora\Server;
 use JsonException;
 use Pandora\Constants\SuccessResponse;
 
-class Response
-{
+class Response {
     private int|null $status = null;
     private array $headers = [];
     private string|null $content = null;
@@ -16,8 +15,7 @@ class Response
     /**
      * @throws JsonException
      */
-    public function __construct(array|null $model = null, int|null $status = null)
-    {
+    public function __construct(array|null $model = null, int|null $status = null) {
         if ($model !== null) {
             $this->model = $model;
         }
@@ -37,55 +35,46 @@ class Response
     /**
      * @throws JsonException
      */
-    public static function json(array $data): self
-    {
+    public static function json(array $data): self {
         return new self($data);
     }
 
-    public static function text(string $data): self
-    {
+    public static function text(string $data): self {
         return (new self())
             ->setContentType("text/plain")
             ->setContent($data);
     }
 
-    final public function setContentType(string $contentType): self
-    {
+    final public function setContentType(string $contentType): self {
         $this->setHeader("Content-Type", $contentType);
         return $this;
     }
 
-    final public function setHeader(string $header, string $value): self
-    {
+    final public function setHeader(string $header, string $value): self {
         $this->headers[strtolower($header)] = $value;
         return $this;
     }
 
-    public static function redirect(string $url): self
-    {
+    public static function redirect(string $url): self {
         return (new self())
             ->setStatus(302)
             ->setHeader("Location", $url);
     }
 
-    final public function getStatus(): int
-    {
+    final public function getStatus(): int {
         return $this->status;
     }
 
-    final public function setStatus(int $status): self
-    {
+    final public function setStatus(int $status): self {
         $this->status = $status;
         return $this;
     }
 
-    final public function getHeaders(): array
-    {
+    final public function getHeaders(): array {
         return $this->headers;
     }
 
-    final public function prepare(): void
-    {
+    final public function prepare(): void {
         header("Content-Type: None");
         header_remove("Content-Type");
         if ($this->getContent() === null) {
@@ -101,19 +90,16 @@ class Response
         }
     }
 
-    final public function getContent(): string|null
-    {
+    final public function getContent(): string|null {
         return $this->content;
     }
 
-    final public function setContent(string|null $content): self
-    {
+    final public function setContent(string|null $content): self {
         $this->content = $content;
         return $this;
     }
 
-    final public function removeHeader(string $header): void
-    {
+    final public function removeHeader(string $header): void {
         unset($this->headers[strtolower($header)]);
     }
 }

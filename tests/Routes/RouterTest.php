@@ -10,15 +10,13 @@ use Pandora\Server\Server;
 use Pandora\Server\ServerMock;
 use PHPUnit\Framework\TestCase;
 
-class RouterTest extends TestCase
-{
+class RouterTest extends TestCase {
     /**
      * @throws NotFoundException
      */
-    final public function test_resolve_basic_route_with_callback_action(): void
-    {
+    final public function test_resolve_basic_route_with_callback_action(): void {
         $uri = '/test';
-        $action = static fn() => "test";
+        $action = static fn () => "test";
         $router = new Router();
         $router->get($uri, $action);
         $request = new Request(new ServerMock($uri, HttpMethod::GET));
@@ -28,14 +26,13 @@ class RouterTest extends TestCase
     /**
      * @throws NotFoundException
      */
-    final public function test_resolve_multiple_routes_with_callback(): void
-    {
+    final public function test_resolve_multiple_routes_with_callback(): void {
         $routes = [
-            '/test' => static fn() => "test",
-            '/foo' => static fn() => "foo",
-            '/bar' => static fn() => "bar",
-            '/fizz' => static fn() => "fizz",
-            '/fizz/buzz' => static fn() => "fizzbuzz",
+            '/test' => static fn () => "test",
+            '/foo' => static fn () => "foo",
+            '/bar' => static fn () => "bar",
+            '/fizz' => static fn () => "fizz",
+            '/fizz/buzz' => static fn () => "fizzbuzz",
         ];
         $router = new Router();
         foreach ($routes as $uri => $action) {
@@ -50,19 +47,18 @@ class RouterTest extends TestCase
     /**
      * @throws NotFoundException
      */
-    final public function test_resolve_multiple_routes_for_different_method_with_callback(): void
-    {
+    final public function test_resolve_multiple_routes_for_different_method_with_callback(): void {
         $routes = [
-            [HttpMethod::GET, "/test", static fn() => "test"],
-            [HttpMethod::POST, "/test", static fn() => "post test"],
-            [HttpMethod::PUT, "/test", static fn() => "put test"],
-            [HttpMethod::PATCH, "/test", static fn() => "patch test"],
-            [HttpMethod::DELETE, "/test", static fn() => "delete test"],
-            [HttpMethod::GET, "/books", static fn() => "books"],
-            [HttpMethod::POST, "/items/create", static fn() => "create item"],
-            [HttpMethod::PUT, "/category/programming/post/1", static fn() => "update post by category"],
-            [HttpMethod::PATCH, "/fizz/buzz/19109", static fn() => "patch fizz buzz"],
-            [HttpMethod::DELETE, "/users/199", static fn() => "delete user by id"],
+            [HttpMethod::GET, "/test", static fn () => "test"],
+            [HttpMethod::POST, "/test", static fn () => "post test"],
+            [HttpMethod::PUT, "/test", static fn () => "put test"],
+            [HttpMethod::PATCH, "/test", static fn () => "patch test"],
+            [HttpMethod::DELETE, "/test", static fn () => "delete test"],
+            [HttpMethod::GET, "/books", static fn () => "books"],
+            [HttpMethod::POST, "/items/create", static fn () => "create item"],
+            [HttpMethod::PUT, "/category/programming/post/1", static fn () => "update post by category"],
+            [HttpMethod::PATCH, "/fizz/buzz/19109", static fn () => "patch fizz buzz"],
+            [HttpMethod::DELETE, "/users/199", static fn () => "delete user by id"],
         ];
         $router = new Router();
         foreach ($routes as [$method, $uri, $action]) {
@@ -74,8 +70,7 @@ class RouterTest extends TestCase
         }
     }
 
-    private function mockServerRequest(mixed $uri, mixed $method): Request
-    {
+    private function mockServerRequest(mixed $uri, mixed $method): Request {
         $mock = $this->getMockBuilder(Server::class)->getMock();
         $mock->method('getUri')->willReturn($uri);
         $mock->method('getMethod')->willReturn($method);

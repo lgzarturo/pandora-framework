@@ -2,8 +2,7 @@
 
 namespace Pandora\Constants;
 
-enum SuccessResponse: int
-{
+enum SuccessResponse: int {
     case OK = 200;
     case CREATED = 201;
     case ACCEPTED = 202;
