@@ -34,15 +34,49 @@ class Response
         }
     }
 
+    /**
+     * @throws JsonException
+     */
+    public static function json(array $data): self
+    {
+        return new self($data);
+    }
+
+    public static function text(string $data): self
+    {
+        return (new self())
+            ->setContentType("text/plain")
+            ->setContent($data);
+    }
+
+    final public function setContentType(string $contentType): self
+    {
+        $this->setHeader("Content-Type", $contentType);
+        return $this;
+    }
+
+    final public function setHeader(string $header, string $value): self
+    {
+        $this->headers[strtolower($header)] = $value;
+        return $this;
+    }
+
+    public static function redirect(string $url): self
+    {
+        return (new self())
+            ->setStatus(302)
+            ->setHeader("Location", $url);
+    }
 
     final public function getStatus(): int
     {
         return $this->status;
     }
 
-    final public function setStatus(int $status): void
+    final public function setStatus(int $status): self
     {
         $this->status = $status;
+        return $this;
     }
 
     final public function getHeaders(): array
@@ -59,9 +93,9 @@ class Response
             $this->removeHeader("Content-Length");
         } else {
             if (count($this->model) === 0) {
-                $this->setHeader("Content-Type", "text/plain");
+                $this->setContentType("text/plain");
             } else {
-                $this->setHeader("Content-Type", "application/json");
+                $this->setContentType("application/json");
             }
             $this->setHeader("Content-Length", strlen($this->getContent()));
         }
@@ -72,18 +106,14 @@ class Response
         return $this->content;
     }
 
-    final public function setContent(string|null $content): void
+    final public function setContent(string|null $content): self
     {
         $this->content = $content;
+        return $this;
     }
 
     final public function removeHeader(string $header): void
     {
         unset($this->headers[strtolower($header)]);
-    }
-
-    final public function setHeader(string $header, string $value): void
-    {
-        $this->headers[strtolower($header)] = $value;
     }
 }

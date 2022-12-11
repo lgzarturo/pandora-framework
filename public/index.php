@@ -15,24 +15,28 @@ use Pandora\Server\ServerNative;
 
 $router = new Router();
 
+$router->get('/', static function (Request $request) {
+    return Response::redirect("https://google.com");
+});
+
 $router->get('/test', static function (Request $request) {
-    return new Response(["message" => "GET /test OK"]);
+    return Response::json(["message" => "GET /test OK"]);
 });
 
 $router->post('/test', static function (Request $request) {
-    return new Response(["message" => "POST /test OK"]);
+    return Response::json(["message" => "POST /test OK"]);
 });
 
 $router->put('/test', static function (Request $request) {
-    return new Response(["message" => "PUT /test OK"]);
+    return Response::json(["message" => "PUT /test OK"]);
 });
 
 $router->patch('/test', static function (Request $request) {
-    return new Response(["message" => "PATCH /test OK"]);
+    return Response::json(["message" => "PATCH /test OK"]);
 });
 
 $router->delete('/test', static function (Request $request) {
-    return new Response(["message" => "DELETE /test OK"]);
+    return Response::json(["message" => "DELETE /test OK"]);
 });
 
 $server = new ServerNative();
@@ -44,17 +48,12 @@ try {
     $response = $action($request);
 } catch (NotFoundException $e) {
     try {
-        $response = new Response(
-            $e->getModelResponse(),
-            ErrorResponse::NOT_FOUND->value
-        );
+        $response = ResponseError::notFound($e);
     } catch (JsonException|Exception $e) {
-        $error = new ResponseError($e);
-        $response = $error->internalServerErrorResponse();
+        $response = ResponseError::serverError($e);
     }
 } catch (Exception $e) {
-    $error = new ResponseError($e);
-    $response = $error->internalServerErrorResponse();
+    $response = ResponseError::serverError($e);
 }
 
 $server->sendResponse($response);
