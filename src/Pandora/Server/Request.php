@@ -22,18 +22,15 @@ class Request {
         return $this;
     }
 
-    final public function getRouteParams(string|null $key = null): array
-    {
+    final public function getRouteParams(string|null $key = null): array {
         return $this->getByKey($this->route->parseParameters($this->uri), $key);
     }
 
-    final public function getRoute(): Route
-    {
+    final public function getRoute(): Route {
         return $this->route;
     }
 
-    final public function setRoute(Route $route): self
-    {
+    final public function setRoute(Route $route): self {
         $this->route = $route;
         return $this;
     }
@@ -66,9 +63,12 @@ class Request {
 
     private function getByKey(array $params, string|null $key = null): array {
         if (isset($key)) {
-            return [$key => $params[$key]];
+            $value = $params[$key] ?? null;
+            if ($value === null) {
+                return [];
+            }
+            return [$key => $value];
         }
         return $params;
     }
-
 }

@@ -8,8 +8,7 @@ class ServerMock implements Server {
     public function __construct(public string $uri, public HttpMethod $method) {
     }
 
-    final public function getRequest(): Request
-    {
+    final public function getRequest(): Request {
         return (new Request())
             ->setUri($this->uri)
             ->setMethod($this->method)
@@ -24,5 +23,4 @@ class ServerMock implements Server {
             header("{$header}: {$value}");
         }
     }
-
 }

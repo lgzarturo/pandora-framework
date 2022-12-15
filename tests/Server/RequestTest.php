@@ -18,7 +18,7 @@ class RequestTest extends TestCase {
         $this->assertEquals($queryString, $request->getQueryString());
         $this->assertEquals($body, $request->getBody());
     }
-    
+
     final public function test_data_returns_value_if_key_is_given(): void {
         $body = ['data' => 'hello', 'content' => 'lorem2'];
         $server = new ServerMock("/test", HttpMethod::GET);
@@ -28,6 +28,15 @@ class RequestTest extends TestCase {
         $this->assertEquals(['data' => 'hello'], $data);
     }
 
+    final public function test_data_returns_empty_array_if_key_not_exists(): void {
+        $body = ['content' => 'lorem2'];
+        $server = new ServerMock("/test", HttpMethod::GET);
+        $request = $server->getRequest();
+        $request->setBody($body);
+        $data = $request->getBody('data');
+        $this->assertEquals([], $data);
+    }
+
     final public function test_query_returns_value_if_key_is_given(): void {
         $queryString = ['page' => 1, 'offset' => 20, 'order' => 'id,asc'];
         $server = new ServerMock("/test", HttpMethod::GET);
@@ -35,6 +44,15 @@ class RequestTest extends TestCase {
         $request->setQueryString($queryString);
         $data = $request->getQueryString('page');
         $this->assertEquals(['page' => 1], $data);
+    }
+
+    final public function test_query_returns_empty_array_if_key_not_exists(): void {
+        $queryString = ['offset' => 20, 'order' => 'id,asc'];
+        $server = new ServerMock("/test", HttpMethod::GET);
+        $request = $server->getRequest();
+        $request->setQueryString($queryString);
+        $data = $request->getQueryString('page');
+        $this->assertEquals([], $data);
     }
 
     /**
