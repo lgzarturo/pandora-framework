@@ -25,6 +25,10 @@ class ServerMock implements Server {
     }
 
     final public function sendResponse(Response $response): void {
-        // TODO: Implement sendResponse() method.
+        $response->prepare();
+        http_response_code($response->getStatus());
+        foreach ($response->getHeaders() as $header => $value) {
+            header("{$header}: {$value}");
+        }
     }
 }

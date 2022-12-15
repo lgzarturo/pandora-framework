@@ -29,7 +29,17 @@ class Request {
         return $this->body;
     }
 
+    final public function setBody(array $body): self {
+        $this->body = $body;
+        return $this;
+    }
+
     final public function getQueryString(): array {
         return $this->queryString;
+    }
+
+    final public function setQueryString(array $params): self {
+        $this->queryString = $params;
+        return $this;
     }
 }

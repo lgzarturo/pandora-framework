@@ -42,6 +42,7 @@ class Response {
     public static function text(string $data): self {
         return (new self())
             ->setContentType("text/plain")
+            ->setStatus(SuccessResponse::OK->value)
             ->setContent($data);
     }
 
