@@ -19,7 +19,8 @@ class RouterTest extends TestCase {
         $action = static fn () => "test";
         $router = new Router();
         $router->get($uri, $action);
-        $request = new Request(new ServerMock($uri, HttpMethod::GET));
+        $server = new ServerMock($uri, HttpMethod::GET);
+        $request = $server->getRequest();
         $this->assertEquals($action, $router->resolve($request)->getAction());
     }
 
@@ -39,7 +40,8 @@ class RouterTest extends TestCase {
             $router->get($uri, $action);
         }
         foreach ($routes as $uri => $action) {
-            $request = new Request(new ServerMock($uri, HttpMethod::GET));
+            $server = new ServerMock($uri, HttpMethod::GET);
+            $request = $server->getRequest();
             $this->assertEquals($action, $router->resolve($request)->getAction());
         }
     }
@@ -71,11 +73,9 @@ class RouterTest extends TestCase {
     }
 
     private function mockServerRequest(mixed $uri, mixed $method): Request {
+        $request = (new Request())->setUri($uri)->setMethod($method);
         $mock = $this->getMockBuilder(Server::class)->getMock();
-        $mock->method('getUri')->willReturn($uri);
-        $mock->method('getMethod')->willReturn($method);
-        $mock->method('getBody')->willReturn([]);
-        $mock->method('getQueryString')->willReturn([]);
-        return new Request($mock);
+        $mock->method('getRequest')->willReturn($request);
+        return $mock->getRequest();
     }
 }

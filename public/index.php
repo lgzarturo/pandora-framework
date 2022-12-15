@@ -42,7 +42,7 @@ $router->delete('/test', static function (Request $request) {
 $server = new ServerNative();
 
 try {
-    $request = new Request($server);
+    $request = $server->getRequest();
     $route = $router->resolve($request);
     $action = $route->getAction();
     $response = $action($request);

@@ -11,11 +11,10 @@ class RequestTest extends TestCase {
     final public function test_request_returns_data_obtained_from_server_correctly(): void {
         $queryString = ['page' => 1];
         $body = ['data' => 'hello'];
-        $request = new Request(new ServerMock("/test", HttpMethod::GET));
+        $server = new ServerMock("/test", HttpMethod::GET);
+        $request = $server->getRequest();
         $request->setBody($body)->setQueryString($queryString);
         $this->assertEquals($queryString, $request->getQueryString());
         $this->assertEquals($body, $request->getBody());
-        $this->assertEquals("/test", $request->getUri());
-        $this->assertEquals(HttpMethod::GET, $request->getMethod());
     }
 }

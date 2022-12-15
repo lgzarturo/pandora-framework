@@ -4,7 +4,6 @@ namespace Pandora\Tests\Server;
 
 use JsonException;
 use Pandora\Constants\HttpMethod;
-use Pandora\Server\Request;
 use Pandora\Server\Response;
 use Pandora\Server\ServerMock;
 use PHPUnit\Framework\TestCase;
