@@ -2,4 +2,10 @@
 GET http://localhost:8080/test
 
 ###
+GET http://localhost:8080/test/ejemplo
+
+###
+GET http://localhost:8080/test/ejemplo/id/18171
+
+###
 GET http://localhost:8080/notFound/path

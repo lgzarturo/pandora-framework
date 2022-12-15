@@ -22,6 +22,11 @@ class Request {
         return $this;
     }
 
+    final public function getRouteParams(string|null $key = null): array
+    {
+        return $this->getByKey($this->route->parseParameters($this->uri), $key);
+    }
+
     final public function getRoute(): Route
     {
         return $this->route;
@@ -42,8 +47,8 @@ class Request {
         return $this;
     }
 
-    final public function getBody(): array {
-        return $this->body;
+    final public function getBody(string|null $key = null): array {
+        return $this->getByKey($this->body, $key);
     }
 
     final public function setBody(array $body): self {
@@ -51,12 +56,19 @@ class Request {
         return $this;
     }
 
-    final public function getQueryString(): array {
-        return $this->queryString;
+    final public function getQueryString(string|null $key = null): array {
+        return $this->getByKey($this->queryString, $key);
     }
     final public function setQueryString(array $params): self {
         $this->queryString = $params;
         return $this;
+    }
+
+    private function getByKey(array $params, string|null $key = null): array {
+        if (isset($key)) {
+            return [$key => $params[$key]];
+        }
+        return $params;
     }
 
 }

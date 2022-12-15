@@ -19,6 +19,14 @@ $router->get('/', static function (Request $request) {
     return Response::redirect("https://google.com");
 });
 
+$router->get('/test/{param}', static function (Request $request) {
+    return Response::json($request->getRouteParams());
+});
+
+$router->get('/test/{param}/id/{id}', static function (Request $request) {
+    return Response::json($request->getRouteParams('id'));
+});
+
 $router->get('/test', static function (Request $request) {
     return Response::json(["message" => "GET /test OK"]);
 });
@@ -44,6 +52,7 @@ $server = new ServerNative();
 try {
     $request = $server->getRequest();
     $route = $router->resolve($request);
+    $request->setRoute($route);
     $action = $route->getAction();
     $response = $action($request);
 } catch (NotFoundException $e) {
