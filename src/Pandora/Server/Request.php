@@ -63,19 +63,11 @@ class Request {
     }
 
     final public function getHeaders(string|null $key = null): array {
-        return $this->getByKey($this->headers, strtolower($key));
+        return Header::getByKey($this->headers, $key);
     }
 
     final public function getContentHeader(string $key): string {
-        $header = $this->getHeaders($key);
-        if (empty($header)) {
-            return '';
-        }
-        $value = reset($header);
-        if (!$value) {
-            return '';
-        }
-        return $value;
+        return Header::getContentHeaderByKey($this->headers, $key);
     }
 
     final public function setHeaders(array $headers): self {

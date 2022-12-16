@@ -2,10 +2,12 @@
 
 namespace Pandora\Tests\Routes;
 
+use Closure;
 use Pandora\Constants\HttpMethod;
 use Pandora\Exception\NotFoundException;
 use Pandora\Routes\Router;
 use Pandora\Server\Request;
+use Pandora\Server\Response;
 use Pandora\Server\Server;
 use Pandora\Server\ServerMock;
 use PHPUnit\Framework\TestCase;
@@ -70,6 +72,38 @@ class RouterTest extends TestCase {
             $mockRequest = $this->mockServerRequest($uri, $method);
             $this->assertEquals($action, $router->resolveRoute($mockRequest)->getAction());
         }
+    }
+
+    /**
+     * @throws NotFoundException
+     */
+    final public function test_run_middleware(): void {
+        $first = new class {
+            public function handle(Request $request, Closure $next): Response {
+                $response = $next($request);
+                assert($response instanceof Response);
+                $response->setHeader('x-test-mw-one', 'first-middleware');
+                return $response;
+            }
+        };
+        $second = new class {
+            public function handle(Request $request, Closure $next): Response {
+                $response = $next($request);
+                assert($response instanceof Response);
+                $response->setHeader('x-test-mw-two', 'second-middleware');
+                return $response;
+            }
+        };
+        $router = new Router();
+        $uri = "/test";
+        $expected = Response::text("test");
+        $action = static fn ($request) => $expected;
+        $router->get($uri, $action)
+            ->setMiddlewares([$first, $second]);
+        $response = $router->resolveResponse($this->mockServerRequest($uri, HttpMethod::GET));
+        $this->assertEquals($expected, $response);
+        $this->assertEquals('first-middleware', $response->getContentHeader('x-test-mw-one'));
+        $this->assertEquals('second-middleware', $response->getContentHeader('x-test-mw-two'));
     }
 
     private function mockServerRequest(mixed $uri, mixed $method): Request {

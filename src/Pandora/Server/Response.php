@@ -73,8 +73,12 @@ class Response {
         return $this;
     }
 
-    final public function getHeaders(): array {
-        return $this->headers;
+    final public function getHeaders(string|null $key = null): array {
+        return Header::getByKey($this->headers, $key);
+    }
+
+    final public function getContentHeader(string $key): string {
+        return Header::getContentHeaderByKey($this->headers, $key);
     }
 
     final public function prepare(): void {
