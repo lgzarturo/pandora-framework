@@ -6,6 +6,8 @@ openlog("pandora_log", LOG_PID | LOG_PERROR, LOG_LOCAL0);
 require_once '../vendor/autoload.php';
 
 use Pandora\Kernel\App;
+use Pandora\Middlewares\Authentication;
+use Pandora\Routes\Route;
 use Pandora\Server\Request;
 use Pandora\Server\Response;
 
@@ -42,6 +44,9 @@ $app->router->patch('/test', static function (Request $request) {
 $app->router->delete('/test', static function (Request $request) {
     return Response::json(["message" => "DELETE /test OK"]);
 });
+
+$action = static fn (Request $request) => Response::json(["message" => "ok"]);
+Route::get('/middlewares', $action)->setMiddlewares([Authentication::class]);
 
 $app->run();
 

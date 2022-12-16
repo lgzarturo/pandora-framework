@@ -10,11 +10,12 @@
     "autoload": {
         "psr-4": {
             "Pandora\\": "src/Pandora",
-            "Pandora\\Exception\\": "src/Pandora/Exceptions",
             "Pandora\\Constants\\": "src/Pandora/Constants",
+            "Pandora\\Exception\\": "src/Pandora/Exceptions",
+            "Pandora\\Kernel\\": "src/Pandora/Kernel",
+            "Pandora\\Middlewares\\": "src/Pandora/Middlewares",
             "Pandora\\Routes\\": "src/Pandora/Routes",
-            "Pandora\\Server\\": "src/Pandora/Server",
-            "Pandora\\Kernel\\": "src/Pandora/Kernel"
+            "Pandora\\Server\\": "src/Pandora/Server"
         }
     },
     "autoload-dev": {

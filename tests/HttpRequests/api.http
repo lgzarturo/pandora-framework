@@ -9,3 +9,10 @@ GET http://localhost:8080/test/ejemplo/id/18171
 
 ###
 GET http://localhost:8080/notFound/path
+
+###
+GET http://localhost:8080/middlewares
+
+###
+GET http://localhost:8080/middlewares
+Authorization: test

@@ -3,12 +3,17 @@
 namespace Pandora\Routes;
 
 use Closure;
+use Pandora\Kernel\App;
+use Pandora\Kernel\Container;
+use Pandora\Kernel\Middleware;
 
 class Route {
     private string $uri;
     private Closure $action;
     private string $regex;
     private array $params;
+    /* @var Middleware[] */
+    private array $middlewares = [];
 
     public function __construct(string $uri, Closure $action) {
         $this->uri = $uri;
@@ -39,5 +44,24 @@ class Route {
 
     final public function getAction(): Closure {
         return $this->action;
+    }
+
+    final public function getMiddlewares(): array {
+        return $this->middlewares;
+    }
+
+    final public function setMiddlewares(array $middlewares): self {
+        $this->middlewares = array_map(static fn ($middleware) => new $middleware(), $middlewares);
+        return $this;
+    }
+
+    final public function hasMiddlewares(): bool {
+        return count($this->middlewares) > 0;
+    }
+
+    final public static function get(string $uri, Closure $action): self {
+        $app = Container::resolve(App::class);
+        assert($app instanceof App);
+        return $app->router->get($uri, $action);
     }
 }

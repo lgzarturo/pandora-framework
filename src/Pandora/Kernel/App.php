@@ -27,10 +27,7 @@ class App {
 
     final public function run(): void {
         try {
-            $route = $this->router->resolve($this->request);
-            $this->request->setRoute($route);
-            $action = $route->getAction();
-            $response = $action($this->request);
+            $response = $this->router->resolveResponse($this->request);
         } catch (NotFoundException $e) {
             try {
                 $response = ResponseError::notFound($e);

@@ -11,6 +11,7 @@ class Request {
     private HttpMethod $method;
     private array $body;
     private array $queryString;
+    private array $headers = [];
 
     final public function getUri(): string {
         return $this->uri;
@@ -58,6 +59,29 @@ class Request {
     }
     final public function setQueryString(array $params): self {
         $this->queryString = $params;
+        return $this;
+    }
+
+    final public function getHeaders(string|null $key = null): array {
+        return $this->getByKey($this->headers, strtolower($key));
+    }
+
+    final public function getContentHeader(string $key): string {
+        $header = $this->getHeaders($key);
+        if (empty($header)) {
+            return '';
+        }
+        $value = reset($header);
+        if (!$value) {
+            return '';
+        }
+        return $value;
+    }
+
+    final public function setHeaders(array $headers): self {
+        foreach ($headers as $header => $value) {
+            $this->headers[strtolower($header)] = $value;
+        }
         return $this;
     }
 

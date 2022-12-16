@@ -63,7 +63,7 @@ class RequestTest extends TestCase {
         $router->get('/test/{id}/data/{param}', static fn () => "test");
         $server = new ServerMock("/test/1/data/example", HttpMethod::GET);
         $request = $server->getRequest();
-        $route = $router->resolve($request);
+        $route = $router->resolveRoute($request);
         $request->setRoute($route);
         $data = $request->getRouteParams('id');
         $this->assertEquals(['id' => 1], $data);
@@ -77,7 +77,7 @@ class RequestTest extends TestCase {
         $router->get('/test/{id}/data/{param}', static fn () => "test");
         $server = new ServerMock("/test/1/data/example", HttpMethod::GET);
         $request = $server->getRequest();
-        $route = $router->resolve($request);
+        $route = $router->resolveRoute($request);
         $request->setRoute($route);
         $data = $request->getRouteParams();
         $this->assertEquals(['id' => 1, 'param' => 'example'], $data);
