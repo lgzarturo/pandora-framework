@@ -13,7 +13,8 @@
             "Pandora\\Exception\\": "src/Pandora/Exceptions",
             "Pandora\\Constants\\": "src/Pandora/Constants",
             "Pandora\\Routes\\": "src/Pandora/Routes",
-            "Pandora\\Server\\": "src/Pandora/Server"
+            "Pandora\\Server\\": "src/Pandora/Server",
+            "Pandora\\Kernel\\": "src/Pandora/Kernel"
         }
     },
     "autoload-dev": {
