@@ -3,7 +3,10 @@
 namespace Pandora\Tests\Server;
 
 use JsonException;
+use Pandora\Constants\ContentType;
+use Pandora\Constants\HeaderName;
 use Pandora\Constants\HttpMethod;
+use Pandora\Constants\SuccessResponse;
 use Pandora\Server\Response;
 use Pandora\Server\ServerMock;
 use PHPUnit\Framework\TestCase;
@@ -14,28 +17,31 @@ class ResponseTest extends TestCase {
      */
     final public function test_json_response_is_constructed_correctly(): void {
         $data = ['data' => 'welcome'];
-        $response = new Response(['data' => 'welcome']);
-        $this->assertEquals(200, $response->getStatus());
+        $response = new Response($data);
+        $this->assertEquals(SuccessResponse::OK->value, $response->getStatus());
         $this->assertEquals(json_encode($data, JSON_THROW_ON_ERROR), $response->getContent());
     }
 
     final public function test_text_response_is_constructed_correctly(): void {
         $data = "Hola mundo";
         $response = Response::text($data);
-        $this->assertEquals(200, $response->getStatus());
+        $header = strtolower(HeaderName::CONTENT_TYPE->value);
+        $this->assertEquals(SuccessResponse::OK->value, $response->getStatus());
         $this->assertEquals($data, $response->getContent());
-        $this->assertEquals('text/plain', $response->getHeaders()['content-type']);
+        $this->assertEquals(ContentType::TEXT->value, $response->getHeaders()[$header]);
     }
 
     final public function test_redirect_response_is_constructed_correctly(): void {
-        $response = Response::redirect("https://google.com");
-        $this->assertEquals(302, $response->getStatus());
-        $this->assertEquals('https://google.com', $response->getHeaders()['location']);
+        $url = "https://google.com";
+        $response = Response::redirect($url);
+        $header = strtolower(HeaderName::LOCATION->value);
+        $this->assertEquals(SuccessResponse::REDIRECT->value, $response->getStatus());
+        $this->assertEquals($url, $response->getHeaders()[$header]);
     }
 
     final public function test_prepare_method_removes_content_headers_if_there_is_no_content(): void {
         $response = new Response();
-        $this->assertEquals(204, $response->getStatus());
+        $this->assertEquals(SuccessResponse::NO_CONTENT->value, $response->getStatus());
     }
 
     /**
@@ -47,7 +53,8 @@ class ResponseTest extends TestCase {
         $response = new Response($data);
         $server = new ServerMock("/test", HttpMethod::GET);
         $server->sendResponse($response);
-        $this->assertEquals(200, $response->getStatus());
-        $this->assertArrayHasKey('content-length', $response->getHeaders());
+        $header = strtolower(HeaderName::CONTENT_LENGTH->value);
+        $this->assertEquals(SuccessResponse::OK->value, $response->getStatus());
+        $this->assertArrayHasKey($header, $response->getHeaders());
     }
 }

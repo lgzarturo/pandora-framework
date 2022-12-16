@@ -3,12 +3,13 @@
 namespace Pandora\Server;
 
 use Pandora\Constants\HttpMethod;
+use Pandora\Constants\ServerValue;
 
 class ServerNative implements Server {
     final public function getRequest(): Request {
         return (new Request())
-            ->setUri(parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH))
-            ->setMethod(HttpMethod::from($_SERVER["REQUEST_METHOD"]))
+            ->setUri(parse_url($_SERVER[ServerValue::REQUEST_URI->value], PHP_URL_PATH))
+            ->setMethod(HttpMethod::from($_SERVER[ServerValue::REQUEST_METHOD->value]))
             ->setHeaders(getallheaders())
             ->setBody($_POST)
             ->setQueryString($_GET);

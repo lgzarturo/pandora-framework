@@ -4,12 +4,14 @@ namespace Pandora\Server;
 
 use Exception;
 use JsonException;
+use Pandora\Constants\ErrorMessage;
 use Pandora\Constants\ErrorResponse;
+use Pandora\Constants\ServerValue;
 use Pandora\Exception\NotFoundException;
 
 class ResponseError {
     public function __construct(public Exception $exception) {
-        syslog(LOG_ERR, "{$this->exception->getMessage()} {$_SERVER['REMOTE_ADDR']} ({$_SERVER['HTTP_USER_AGENT']})");
+        syslog(LOG_ERR, "{$this->exception->getMessage()} {$_SERVER[ServerValue::REMOTE_ADDR->value]} ({$_SERVER[ServerValue::HTTP_USER_AGENT->value]})");
     }
 
     /**
@@ -23,7 +25,7 @@ class ResponseError {
 
     final public static function serverError(Exception $exception): Response {
         new self($exception);
-        return Response::text("Error interno del servidor")
+        return Response::text(ErrorMessage::INTERNAL->value)
             ->setStatus(ErrorResponse::INTERNAL_SERVER_ERROR->value);
     }
 }

@@ -16,11 +16,17 @@ class Route {
     private array $middlewares = [];
 
     public function __construct(string $uri, Closure $action) {
+        $replacement = '([a-zA-Z0-9_-]+)';
+        $pattern = '/\{'.$replacement.'\}/';
         $this->uri = $uri;
         $this->action = $action;
-        $this->regex = preg_replace('/\{([a-zA-Z0-9_-]+)\}/', '([a-zA-Z0-9_-]+)', $this->uri);
+        $this->regex = preg_replace(
+            $pattern,
+            $replacement,
+            $this->uri
+        );
         $params = [];
-        preg_match_all('/\{([a-zA-Z0-9_-]+)\}/', $uri, $params);
+        preg_match_all($pattern, $uri, $params);
         $this->params = $params[1];
     }
 
@@ -51,7 +57,10 @@ class Route {
     }
 
     final public function setMiddlewares(array $middlewares): self {
-        $this->middlewares = array_map(static fn ($middleware) => new $middleware(), $middlewares);
+        $this->middlewares = array_map(
+            static fn ($middleware) => new $middleware(),
+            $middlewares
+        );
         return $this;
     }
 

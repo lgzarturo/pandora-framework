@@ -3,6 +3,7 @@
 namespace Pandora\Routes;
 
 use Closure;
+use Pandora\Constants\ErrorMessage;
 use Pandora\Constants\ErrorResponse;
 use Pandora\Constants\HttpMethod;
 use Pandora\Exception\NotFoundException;
@@ -28,7 +29,10 @@ class Router {
                 return $route;
             }
         }
-        throw new NotFoundException("El recurso solicitado no existe!", ErrorResponse::NOT_FOUND->value);
+        throw new NotFoundException(
+            ErrorMessage::RESOURCE_NOT_FOUND->value,
+            ErrorResponse::NOT_FOUND->value
+        );
     }
 
     /**
@@ -53,7 +57,11 @@ class Router {
         if (count($middlewares) === 0) {
             return $target($request);
         }
-        $next = fn ($request) => $this->runMiddlewares(array_slice($middlewares, 1), $request, $target);
+        $next = fn ($request) => $this->runMiddlewares(
+            array_slice($middlewares, 1),
+            $request,
+            $target
+        );
         return $middlewares[0]->handle($request, $next);
     }
 

@@ -7,4 +7,5 @@ enum SuccessResponse: int {
     case CREATED = 201;
     case ACCEPTED = 202;
     case NO_CONTENT = 204;
+    case REDIRECT = 302;
 }
