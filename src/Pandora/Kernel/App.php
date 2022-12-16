@@ -16,10 +16,13 @@ class App {
     public Router $router;
     public Server $server;
 
-    public function __construct() {
-        $this->router = new Router();
-        $this->server = new ServerNative();
-        $this->request = $this->server->getRequest();
+    public static function bootstrap(): self {
+        $app = Container::singleton(self::class);
+        assert($app instanceof self);
+        $app->router = new Router();
+        $app->server = new ServerNative();
+        $app->request = $app->server->getRequest();
+        return $app;
     }
 
     final public function run(): void {

@@ -9,7 +9,7 @@ use Pandora\Kernel\App;
 use Pandora\Server\Request;
 use Pandora\Server\Response;
 
-$app = new App();
+$app = App::bootstrap();
 
 $app->router->get('/', static function (Request $request) {
     return Response::redirect("https://google.com");
